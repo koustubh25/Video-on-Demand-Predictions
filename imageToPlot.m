@@ -1,7 +1,5 @@
 %Just takes in Image Path
-function y = imageToPlot(image,fmt)
-
-image = imread(image, fmt);
+function y = imageToPlot(image)
 
 %Convert to Greyscale
 image = rgb2gray(image);
