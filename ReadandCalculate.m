@@ -3,6 +3,8 @@ clc;
 
 %Clear Variables
 clear;
+
+rng default;
 plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 
@@ -26,7 +28,7 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 client_entire = (imageToPlot(image));
 subplot(2,3,1);
-client_entire = client_entire.*9; 
+client_entire = client_entire.*9;
 plot(client_entire);
 xlim([0 length(client_entire)]);
 xlabel('Time in 15-minute bins');
@@ -84,7 +86,7 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 transfer_entire = (imageToPlot(image));
 subplot(2,3,4);
-transfer_entire = transfer_entire.*9/3
+transfer_entire = transfer_entire.*9/3;
 plot(transfer_entire);
 xlim([0 length(transfer_entire)]);
 xlabel('Time in 15-minute bins');
@@ -120,7 +122,7 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 transfer_hour = (imageToPlot(image));
 subplot(2,3,6);
-transfer_hour = transfer_hour.*9/(4.65*2.07)
+transfer_hour = transfer_hour.*9/(4.65*2.07);
 plot(transfer_hour);
 xlim([0 length(transfer_hour)]);
 xlabel('Time(modulo 24 hours) in 15-minute bins');
@@ -129,17 +131,17 @@ title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 
 %set(gca,'XTickLabel',{'temp'});
 
-%Divide the Traffic based on Regions and Devices 
+%Divide the Traffic based on Regions and Devices
 
 
-    %Divide based on Devices
-    
-    devices = {'smartphone','connected tv','tablet','computer','other'};
-    devices_percent_use = [0.11,0.13,0.22,0.33,0.21];
-    
-    %Consider Regions first
-    regions = {'one','two'};
-    regions_percent_use = [0.7,0.3];
+%Divide based on Devices
+
+devices = {'smartphone','connected tv','tablet','computer','other'};
+devices_percent_use = [0.11,0.13,0.22,0.33,0.21];
+
+%Consider Regions first
+regions = {'one','two'};
+regions_percent_use = [0.7,0.3];
 
 
 [regionsAndDevices] = conv2differentStreamTraffic(transfer_mod_week,devices,devices_percent_use,regions,regions_percent_use);
