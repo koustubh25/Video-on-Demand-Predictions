@@ -1,16 +1,8 @@
-function [regionsAndDevices] = conv2differentStreamTraffic(data)
+function [regionsAndDevices] = conv2differentStreamTraffic(data,devices,devices_percent_use,regions,regions_percent_use)
     subplot(2,3,1);
-    %Divide based on Devices
-    
-    devices = {'smartphone','connected_tv','tablet','computer','other'};
-    devices_percent_use = [0.11,0.13,0.22,0.33,0.21];
-    
+
     %Map devices according to their use
     device_perc_users = containers.Map(devices,devices_percent_use);
-    
-    %Consider Regions first
-    regions = {'one','two'};
-    regions_percent_use = [0.7,0.3];
     
     %Map regions according to their traffic
     region_perc_users = containers.Map(regions,regions_percent_use); 
@@ -24,14 +16,9 @@ function [regionsAndDevices] = conv2differentStreamTraffic(data)
         end
     end
     
-    
     %regionsAndDevices conatins the ratios
     
     %Following code uses the multidimensional mapping obtained from 
     %http://jp.mathworks.com/matlabcentral/fileexchange/33068-a-multidimensional-map-class
     
-    
-  
-    
-
 end

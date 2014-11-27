@@ -7,8 +7,8 @@ plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 
 %Supress Figures temporarily
-set(gcf,'Visible','off')              % turns current figure "off"
-set(0,'DefaultFigureVisible','off');
+set(gcf,'Visible','on')              % turns current figure "off"
+set(0,'DefaultFigureVisible','on');
 
 
 
@@ -124,9 +124,17 @@ title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 %set(gca,'XTickLabel',{'temp'});
 
 %Divide the Traffic based on Regions and Devices 
-%devices = {'smartphone','connected_tv','tablet','computer','other'};
-%regions = {'one','two'};
-%change the above values from the function conv2differentStreamTraffic
 
-[regionsAndDevices] = conv2differentStreamTraffic(transfer_hour);
-regionsAndDevices('two','connected_tv') 
+
+    %Divide based on Devices
+    
+    devices = {'smartphone','connected tv','tablet','computer','other'};
+    devices_percent_use = [0.11,0.13,0.22,0.33,0.21];
+    
+    %Consider Regions first
+    regions = {'one','two'};
+    regions_percent_use = [0.7,0.3];
+
+
+[regionsAndDevices] = conv2differentStreamTraffic(transfer_mod_week,devices,devices_percent_use,regions,regions_percent_use);
+driverNeuralNetworks(regionsAndDevices,devices,regions);
