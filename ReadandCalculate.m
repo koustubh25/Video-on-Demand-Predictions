@@ -26,8 +26,8 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 client_entire = (imageToPlot(image));
 subplot(2,3,1);
-
-plot(client_entire.*9);
+client_entire = client_entire.*9; 
+plot(client_entire);
 xlim([0 length(client_entire)]);
 xlabel('Time in 15-minute bins');
 ylabel('Number of Clients');
@@ -43,7 +43,8 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 client_mod_week = (imageToPlot(image));
 subplot(2,3,2);
-plot(client_mod_week.*4.5);
+client_mod_week = client_mod_week.*4.5;
+plot(client_mod_week);
 xlim([0 length(client_mod_week)]);
 xlabel('Time(modulo one week) in 15-minute bins');
 ylabel('Number of Clients');
@@ -61,7 +62,8 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 client_hour = (imageToPlot(image));
 subplot(2,3,3);
-plot(client_hour.*3/1.23);
+client_hour = client_hour.*3/1.23;
+plot(client_hour);
 xlim([0 length(client_hour)]);
 xlabel('Time(modulo 24 hours) in 15-minute bins');
 ylabel('Number of Clients');
@@ -82,7 +84,8 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 transfer_entire = (imageToPlot(image));
 subplot(2,3,4);
-plot(transfer_entire.*9/3);
+transfer_entire = transfer_entire.*9/3
+plot(transfer_entire);
 xlim([0 length(transfer_entire)]);
 xlabel('Time in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
@@ -99,7 +102,8 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 transfer_mod_week = (imageToPlot(image));
 subplot(2,3,5);
-plot(transfer_mod_week.*9/4.65);
+transfer_mod_week = transfer_mod_week.*9/4.65;
+plot(transfer_mod_week);
 xlim([0 length(transfer_mod_week)]);
 xlabel('Time(modulo one week) in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
@@ -116,11 +120,13 @@ fmt = 'png';
 image = imread(strcat(path_location,filename),fmt);
 transfer_hour = (imageToPlot(image));
 subplot(2,3,6);
-plot(transfer_hour.*9/(4.65*2.07));
+transfer_hour = transfer_hour.*9/(4.65*2.07)
+plot(transfer_hour);
 xlim([0 length(transfer_hour)]);
 xlabel('Time(modulo 24 hours) in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
 title('Temporal Behavior of number of Concurrent Transfers:Over Days');
+
 %set(gca,'XTickLabel',{'temp'});
 
 %Divide the Traffic based on Regions and Devices 
@@ -138,3 +144,5 @@ title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 
 [regionsAndDevices] = conv2differentStreamTraffic(transfer_mod_week,devices,devices_percent_use,regions,regions_percent_use);
 driverNeuralNetworks(regionsAndDevices,devices,regions);
+
+
