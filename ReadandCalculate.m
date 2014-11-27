@@ -6,6 +6,12 @@ clear;
 plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 
+%Supress Figures temporarily
+set(gcf,'Visible','off')              % turns current figure "off"
+set(0,'DefaultFigureVisible','off');
+
+
+
 %%%%%%%%%%%%%%%%
 %Client Section
 %%%%%%%%%%%%%%%%
@@ -53,10 +59,10 @@ fmt = 'png';
 
 %read Image
 image = imread(strcat(path_location,filename),fmt);
-client_hourly = (imageToPlot(image));
+client_hour = (imageToPlot(image));
 subplot(2,3,3);
-plot(client_hourly.*3/1.23);
-xlim([0 length(client_hourly)]);
+plot(client_hour.*3/1.23);
+xlim([0 length(client_hour)]);
 xlabel('Time(modulo 24 hours) in 15-minute bins');
 ylabel('Number of Clients');
 title('Temporal Behavior of number of active clients:hourly');
@@ -108,13 +114,19 @@ fmt = 'png';
 
 %read Image
 image = imread(strcat(path_location,filename),fmt);
-transfer_entire = (imageToPlot(image));
+transfer_hour = (imageToPlot(image));
 subplot(2,3,6);
-plot(transfer_entire.*9/(4.65*2.07));
-xlim([0 length(transfer_entire)]);
+plot(transfer_hour.*9/(4.65*2.07));
+xlim([0 length(transfer_hour)]);
 xlabel('Time(modulo 24 hours) in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
 title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 %set(gca,'XTickLabel',{'temp'});
 
-fig2plotly();
+%Divide the Traffic based on Regions and Devices 
+%devices = {'smartphone','connected_tv','tablet','computer','other'};
+%regions = {'one','two'};
+%change the above values from the function conv2differentStreamTraffic
+
+[regionsAndDevices] = conv2differentStreamTraffic(transfer_hour);
+regionsAndDevices('two','connected_tv') 
