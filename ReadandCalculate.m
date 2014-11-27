@@ -3,7 +3,7 @@ clc;
 
 %Clear Variables
 clear;
-
+plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 
 %%%%%%%%%%%%%%%%
@@ -25,7 +25,7 @@ plot(client_entire.*9);
 xlim([0 length(client_entire)]);
 xlabel('Time in 15-minute bins');
 ylabel('Number of Clients');
-title('Temporal Behavior of number of active clients:over entire trace duration');
+title('Temporal Behavior of number of active clients:Entire trace duration');
 %set(gca,'XTickLabel',{'temp'});
 
 %Following is for Modulo-Week
@@ -116,3 +116,5 @@ xlabel('Time(modulo 24 hours) in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
 title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 %set(gca,'XTickLabel',{'temp'});
+
+fig2plotly();
