@@ -13,11 +13,9 @@ set(gcf,'Visible','on')              % turns current figure "off"
 set(0,'DefaultFigureVisible','on');
 
 
-
 %%%%%%%%%%%%%%%%
 %Client Section
 %%%%%%%%%%%%%%%%
-
 
 %Following is over entire period
 
@@ -51,7 +49,10 @@ xlim([0 length(client_mod_week)]);
 xlabel('Time(modulo one week) in 15-minute bins');
 ylabel('Number of Clients');
 title('Temporal Behavior of number of active clients:over days');
-%set(gca,'XTickLabel',{'temp'});
+
+%Setting the X-Axis Labels
+set(gca,'Xtick',0:round(length(client_mod_week)/7):length(client_mod_week));
+set(gca,'XtickLabel',{'Thur','Fri','Sat','Sun','Mon','Tue','Wed'});
 
 
 
@@ -110,8 +111,10 @@ xlim([0 length(transfer_mod_week)]);
 xlabel('Time(modulo one week) in 15-minute bins');
 ylabel('Average Number of Active Transfers/sec');
 title('Temporal Behavior of number of Concurrent Transfers:Over Days');
-%set(gca,'XTickLabel',{'temp'});
 
+%Setting the X-Axis Labels
+set(gca,'Xtick',0:round(length(transfer_mod_week)/7):length(transfer_mod_week));
+set(gca,'XtickLabel',{'Thur','Fri','Sat','Sun','Mon','Tue','Wed'});
 
 %Following is over one day
 
@@ -131,19 +134,20 @@ title('Temporal Behavior of number of Concurrent Transfers:Over Days');
 
 %set(gca,'XTickLabel',{'temp'});
 
+%Initialization Part
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Divide the Traffic based on Regions and Devices
-
 
 %Divide based on Devices
 
 devices = {'smartphone','connected tv','tablet','computer','other'};
 devices_percent_use = [0.11,0.13,0.22,0.33,0.21];
 
-%Consider Regions first
+%Consider Regions 
 regions = {'one','two'};
 regions_percent_use = [0.7,0.3];
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [regionsAndDevices] = conv2differentStreamTraffic(transfer_mod_week,devices,devices_percent_use,regions,regions_percent_use);
 driverNeuralNetworks(regionsAndDevices,devices,regions);
 
