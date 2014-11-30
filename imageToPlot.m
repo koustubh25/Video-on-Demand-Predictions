@@ -1,7 +1,7 @@
 %Just takes in Image Path
 function y = imageToPlot(image)
 
-%Convert to Greyscale
+%Convert to Grayscale
 image = rgb2gray(image);
 
 y = [];

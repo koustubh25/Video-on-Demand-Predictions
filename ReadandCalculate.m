@@ -5,6 +5,10 @@ clc;
 clear;
 
 rng default;
+
+
+%rng('shuffle');
+
 plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 

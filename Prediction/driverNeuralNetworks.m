@@ -1,6 +1,8 @@
 function driverNeuralNetworks(regionsAndDevices,devices,regions)
 
 %Plot for Devices in all Regions
+window_size = 24;
+
 
 legend_names={};
 temp = length(round(regionsAndDevices('one','computer')));
@@ -31,7 +33,31 @@ end
 
 
 output = horzcat(ones(1,100).*108,round(regionsAndDevices('one','computer')));
-input = [1:1:(temp + 100)];
+%input = [1:1:(temp + 100)];
+
+%input = movingstat(transpose(output),window_size,@sum);
+%input = [ones(window_size - 1,1).*108 ; input];
+
+%%%%%%%%%%%%%%%%
+%Stddev
+%%%%%%%%%%%%%%%
+%input = movingstd(transpose(output),window_size);
+
+%input = transpose(input);
+
+
+%Combination of all features - mean, median,stddev
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+meanCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@mean)]);
+medianCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@median)]);
+sumCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@sum)]);
+stddevCurve = transpose(movingstd(transpose(output),window_size));
+
+input = [ meanCurve ; medianCurve ; sumCurve ; stddevCurve ];
+size(input)
+
+
 [a,e,MSE] = neuralNetworksNARX(input,output);
 
 %If the Predicted value is negative, round it to zero
@@ -44,7 +70,11 @@ plot(output(101:end));
 
 hold all;
 plot(round(a(99:end)));
-legend('Original Traffic','Neural NARX Network(Prediction)');
+
+
+%plot(round(input(101:end)))
+
+legend('Original Traffic','Neural NARX Network(Prediction)','Neural Network Feature');
 
 %Setting the X-Axis Labels
 
@@ -62,10 +92,13 @@ for i=99:length(e)
     MSE_narx(end + 1) = mse(err);
 end
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Call Layer Recurrnt Neural Network
+rng default;
 
+%Call Layer Recurrnt Neural Network
+input = [1:1:(temp + 100)];
 [a,e,MSE] = neuralNetworksLayRecNet(input,output);
 
 %If the Predicted value is negative, round it to zero
@@ -99,5 +132,8 @@ legend('NARX','Layer Recurrent Neural Network');
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fprintf('\n NARX MSE mean %f',mean(MSE_narx));
+fprintf('\n LRN MSE mean %f\n',mean(MSE_layrec));
 
 end
