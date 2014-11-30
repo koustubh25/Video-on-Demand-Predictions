@@ -24,7 +24,7 @@ for j=1:length(regions)
     %Setting the X-Axis Labels
     
     set(gca,'Xtick',0:round(temp/7):temp);
-    set(gca,'XtickLabel',{'Thursday','Friday','Saturday','Sunday','Monday','Tuesday','Wednesday'});
+   % set(gca,'XtickLabel',{'Thursday','Friday','Saturday','Sunday','Monday','Tuesday','Wednesday'});
 end
 
 %Narx neural network
@@ -33,7 +33,7 @@ end
 
 
 output = horzcat(ones(1,100).*108,round(regionsAndDevices('one','computer')));
-%input = [1:1:(temp + 100)];
+
 
 %input = movingstat(transpose(output),window_size,@sum);
 %input = [ones(window_size - 1,1).*108 ; input];
@@ -46,18 +46,22 @@ output = horzcat(ones(1,100).*108,round(regionsAndDevices('one','computer')));
 %input = transpose(input);
 
 
-%Combination of all features - mean, median,stddev
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Combination of all features - mean, median,stddev and InterArrival Time
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 meanCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@mean)]);
 medianCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@median)]);
 sumCurve = transpose([ones(window_size - 1,1).*108 ;movingstat(transpose(output),window_size,@sum)]);
 stddevCurve = transpose(movingstd(transpose(output),window_size));
+interArrivalTime = interarrivalTime('Transfer/one_day_temporal');
 
-input = [ meanCurve ; medianCurve ; sumCurve ; stddevCurve ];
-size(input)
+interArrivalTime = horzcat(ones(1,(length(output) - length(interArrivalTime))), interArrivalTime);
 
 
+
+input = [ meanCurve ; medianCurve ; sumCurve ; stddevCurve ; interArrivalTime ];
+
+%input = [1:1:(temp + 100)];
 [a,e,MSE] = neuralNetworksNARX(input,output);
 
 %If the Predicted value is negative, round it to zero
@@ -69,16 +73,17 @@ figure;
 plot(output(101:end));
 
 hold all;
-plot(round(a(99:end)));
+plot(round(a(99:end)),'--');
 
 
 %plot(round(input(101:end)))
 
-legend('Original Traffic','Neural NARX Network(Prediction)','Neural Network Feature');
+legend('Original Traffic','Neural NARX Network (Prediction)');
 
 %Setting the X-Axis Labels
 
 set(gca,'Xtick',0:round(temp/7):temp);
+
 set(gca,'XtickLabel',{'Thursday','Friday','Saturday','Sunday','Monday','Tuesday','Wednesday'});
 
 
@@ -95,10 +100,10 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-rng default;
+rng(1914819610,'v5normal');
 
 %Call Layer Recurrnt Neural Network
-input = [1:1:(temp + 100)];
+%input = [1:1:(temp + 100)];
 [a,e,MSE] = neuralNetworksLayRecNet(input,output);
 
 %If the Predicted value is negative, round it to zero
@@ -109,8 +114,9 @@ figure;
 plot(output(101:end));
 
 hold all;
-plot(round(a(99:end)));
+plot(round(a(99:end)),'--');
 legend('Original Traffic','Layer Recurrent Neural Network(Predicted)');
+
 
 %Setting the X-Axis Labels
 
@@ -129,11 +135,16 @@ plot(MSE_narx);
 hold all;
 plot(MSE_layrec);
 legend('NARX','Layer Recurrent Neural Network');
+fig2plotly();
 
+%X-Axis Labels
+set(gca,'Xtick',0:round(temp/7):temp);
+set(gca,'XtickLabel',{'Thursday','Friday','Saturday','Sunday','Monday','Tuesday','Wednesday'});
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fprintf('\n NARX MSE mean %f',mean(MSE_narx));
 fprintf('\n LRN MSE mean %f\n',mean(MSE_layrec));
+
 
 end

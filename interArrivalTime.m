@@ -1,4 +1,4 @@
-function interArrivalTime(filename)
+function interArrivalTimes = interArrivalTime(filename)
     path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
     
     fmt = 'png';
@@ -38,9 +38,7 @@ function interArrivalTime(filename)
     %Concat day_values based on the order defined in the paper for a Week
     
     interArrivalTimes = horzcat(day_values('Thursday'),day_values('Friday'),day_values('Saturday'),day_values('Sunday'),day_values('Monday'),day_values('Tuesday'),day_values('Wednesday'));
-    plot(interArrivalTimes);
+    interArrivalTimes = round(interArrivalTimes.*100);
+    
    
-    
-
-    
 end

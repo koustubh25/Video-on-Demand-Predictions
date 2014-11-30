@@ -4,12 +4,14 @@ clc;
 %Clear Variables
 clear;
 
-rng default;
+%rng default;
+rng(1914427784,'twister');
 
+%Define Plotly features here
 
 %rng('shuffle');
 
-plotlysetup('koustubh25', '11mfn6163z');
+%plotlysetup('koustubh25', '11mfn6163z');
 path_location = 'C:/Users/Koustubh/Dropbox/Keio/Research/Video on cloud/general related papers/Gathering Data/';
 
 %Supress Figures temporarily
